@@ -9,7 +9,7 @@
     <div class="relative bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 text-white overflow-hidden">
         <!-- Background Pattern -->
         
-        <div class="absolute w-full h-full inset-0 bg-[url('https://i.pinimg.com/736x/8c/55/de/8c55dee4be090a920e57cd9edb3885e0.jpg')] bg-no-repeat bg-cover "></div>
+        <div class="absolute w-full h-full inset-0 bg-[url('https://i.pinimg.com/1200x/09/29/ba/0929ba577e4bc1ec80fe4f2575eff87a.jpg')] bg-no-repeat bg-cover "></div>
 
         <!-- Floating Elements -->
         <div class="absolute top-20 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full animate-pulse"></div>
@@ -19,6 +19,7 @@
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
             <div class="text-center">
                 <!-- Logo animé -->
+                
                 <div class="mb-8 flex justify-center">
                     <div class="relative">
                         <x-luxylia-logo class="h-20 w-auto text-white animate-pulse" />
@@ -71,6 +72,7 @@
 
         <!-- Scroll indicator -->
         <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            
             <svg class="w-6 h-6 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
             </svg>
@@ -117,6 +119,7 @@
                 <a href="{{ isset($category->id) && $category->id <= 1000 ? route('categories.index') : route('categories.show', $category) }}" class="group block">
                     <div class="relative bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-gray-100 overflow-hidden">
                         <!-- Background gradient -->
+                        
                         <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                         <!-- Content -->
@@ -189,7 +192,9 @@
     <!-- Produits en vedette -->
     <div class="relative bg-gradient-to-b from-white via-indigo-50 to-purple-50 py-20 overflow-hidden">
         <!-- Background decoration -->
+        
         <div class="absolute top-0 left-0 w-full h-full">
+            
             <div class="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-indigo-200 to-purple-200 rounded-full opacity-20 animate-pulse"></div>
             <div class="absolute bottom-20 right-10 w-24 h-24 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full opacity-20 animate-pulse"></div>
         </div>
@@ -222,6 +227,7 @@
                         <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
 
                         <div class="relative aspect-w-1 aspect-h-1 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                            
                             <img src="{{ $product->main_image_url }}"
                                  alt="{{ $product->name }}"
                                  class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-700"

@@ -138,19 +138,26 @@ class Product extends Model
      */
     public function getMainImageUrlAttribute()
     {
-        $mainImage = $this->main_image;
+        $slug = Str::slug($this->name, '-');
+        $extensions = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
 
-        if ($mainImage) {
-            // Si l'image commence par http, c'est une URL complète
-            if (str_starts_with($mainImage, 'http')) {
-                return $mainImage;
+        // 1. Check in storage/app/public/products/
+        foreach ($extensions as $ext) {
+            $storagePath = "products/{$slug}.{$ext}";
+            if (\Storage::disk('public')->exists($storagePath)) {
+                return asset('storage/' . $storagePath);
             }
-
-            // Sinon, c'est un chemin local
-            return asset($mainImage);
         }
 
-        // Image placeholder par défaut
+        // 2. Fallback to public/images/products/
+        foreach ($extensions as $ext) {
+            $publicPath = public_path("images/products/{$slug}.{$ext}");
+            if (file_exists($publicPath)) {
+                return asset("images/products/{$slug}.{$ext}");
+            }
+        }
+
+        // 3. Fallback to placeholder
         return $this->getPlaceholderImage();
     }
 
