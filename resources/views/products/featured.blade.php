@@ -7,6 +7,8 @@
 <div class="bg-gradient-to-b from-gray-50 to-white min-h-screen">
     <!-- Hero Section -->
     <div class="relative bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 overflow-hidden">
+        <div class="absolute w-full h-full inset-0 bg-[url('https://i.pinimg.com/1200x/a5/a5/82/a5a582c2415d7788188c0b45936af384.jpg')] bg-no-repeat bg-cover "></div>
+
         <div class="absolute inset-0 bg-black opacity-10"></div>
         <div class="relative max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8">
             <div class="text-center">
@@ -50,8 +52,8 @@
         <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
             <div class="absolute -top-40 -right-40 w-80 h-80 bg-white opacity-5 rounded-full"></div>
             <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-white opacity-5 rounded-full"></div>
-            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white opacity-3 rounded-full"></div>
-        </div>
+ 
+</div>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

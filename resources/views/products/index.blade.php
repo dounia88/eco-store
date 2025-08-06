@@ -7,6 +7,8 @@
 <div class="bg-gradient-to-b from-gray-50 to-white min-h-screen">
     <!-- Hero Section -->
     <div class="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 overflow-hidden">
+        <div class="absolute w-full h-full inset-0 bg-[url('https://i.pinimg.com/1200x/ad/01/44/ad0144ff37091dfdbd749d5e1849b339.jpg')] bg-no-repeat bg-cover "></div>
+
         <div class="absolute inset-0 bg-black opacity-10"></div>
         <div class="relative max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8">
             <div class="text-center">
@@ -23,14 +25,18 @@
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
                     </svg>
-                    {{ $products->total() }} {{ $products->total() > 1 ? 'produits' : 'produit' }} disponible{{ $products->total() > 1 ? 's' : '' }}
+                        {{ $products->total() }} {{ $products->total() > 1 ? 'produits' : 'produit' }} disponible{{ $products->total() > 1 ? 's' : '' }}
                 </div>
             </div>
         </div>
         <!-- Decorative elements -->
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
-            <div class="absolute -top-40 -right-40 w-80 h-80 bg-white opacity-5 rounded-full"></div>
-            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-white opacity-5 rounded-full"></div>
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+            <!-- Nude animated gradient background -->
+            <div class="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-[#f5e9e2] via-[#e8d8c3] to-[#d6bfa7] opacity-40 rounded-full blur-2xl animate-pulse"></div>
+            <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-[#e8d8c3] via-[#f5e9e2] to-[#c9b6a7] opacity-30 rounded-full blur-2xl animate-pulse"></div>
+            <!-- Subtle nude bubbles -->
+            <div class="absolute top-1/3 left-1/4 w-32 h-32 bg-[#f5e9e2] opacity-20 rounded-full blur-xl animate-bounce"></div>
+            <div class="absolute bottom-10 right-1/3 w-24 h-24 bg-[#e8d8c3] opacity-20 rounded-full blur-xl animate-bounce delay-1000"></div>
         </div>
     </div>
 
@@ -54,13 +60,14 @@
                                    placeholder="Nom, marque, description..." 
                                    class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300">
                             <svg class="absolute left-3 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
                         </div>
                     </div>
 
                     <!-- Catégorie -->
                     <div class="space-y-2">
+                        
                         <label class="block text-sm font-medium text-gray-700">Catégorie</label>
                         <select name="category" class="w-full py-3 px-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300">
                             <option value="">Toutes les catégories</option>
@@ -104,24 +111,24 @@
                 <div class="flex flex-wrap gap-4 items-center justify-between pt-6 border-t border-gray-200">
                     <div class="flex flex-wrap gap-2">
                         @if(request()->hasAny(['search', 'category', 'min_price', 'max_price', 'sort']))
-                            @if(request('search'))
+                        @if(request('search'))
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-indigo-100 text-indigo-800">
-                                    Recherche: "{{ request('search') }}"
+                                Recherche: "{{ request('search') }}"
                                     <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}" class="ml-2 text-indigo-600 hover:text-indigo-800">×</a>
-                                </span>
-                            @endif
-                            @if(request('category'))
-                                @php $selectedCategory = $categories->find(request('category')) @endphp
+                            </span>
+                        @endif
+                        @if(request('category'))
+                            @php $selectedCategory = $categories->find(request('category')) @endphp
                                 @if($selectedCategory)
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-800">
                                         {{ $selectedCategory->name }}
                                         <a href="{{ request()->fullUrlWithQuery(['category' => null]) }}" class="ml-2 text-purple-600 hover:text-purple-800">×</a>
-                                    </span>
-                                @endif
+                            </span>
+                        @endif
                             @endif
                         @endif
                     </div>
-                    
+                        
                     <div class="flex gap-3">
                         <a href="{{ route('products.index') }}" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-300 font-medium">
                             Réinitialiser
@@ -137,11 +144,13 @@
         <!-- Grille des produits -->
         @if($products->count() > 0)
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                
                 @foreach($products as $product)
                     @php
                         $slug = Str::slug($product->name, '-');
                         $extensions = ['svg', 'jpeg', 'jpg', 'png', 'webp'];
-                        $imagePath = null;
+                        $imagePath = 'https://i.pinimg.com/736x/69/bb/6e/69bb6e36a02b6ade2674fe922a9da7d3.jpg';
+                        
                         foreach ($extensions as $ext) {
                             $tryPath = "images/products/{$slug}.{$ext}";
                             if (file_exists(public_path($tryPath))) {
@@ -152,6 +161,7 @@
                     @endphp
                     <div class="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-gray-100">
                         <!-- Image -->
+                        
                         <div class="relative aspect-w-1 aspect-h-1 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
                             @if($imagePath)
                                 <img src="{{ $imagePath }}" alt="{{ $product->name }}" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
@@ -161,7 +171,7 @@
                             
                             <!-- Badges -->
                             <div class="absolute top-3 left-3 flex flex-col gap-2">
-                                @if($product->is_featured)
+                            @if($product->is_featured)
                                     <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-orange-400 text-white shadow-lg">
                                         <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
@@ -174,7 +184,7 @@
                                         -{{ $product->discount_percentage }}%
                                     </span>
                                 @endif
-                            </div>
+                                </div>
 
                             <!-- Stock badge -->
                             <div class="absolute top-3 right-3">
@@ -186,24 +196,24 @@
                                     <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                         Rupture
                                     </span>
-                                @endif
+                            @endif
                             </div>
 
                             <!-- Overlay gradient -->
                             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500"></div>
                         </div>
-
+                        
                         <!-- Contenu -->
                         <div class="p-6 space-y-4">
                             <div>
                                 <h3 class="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors duration-300 line-clamp-2">
-                                    {{ $product->name }}
+                                        {{ $product->name }}
                                 </h3>
                                 @if($product->brand)
                                     <p class="text-sm text-gray-500 font-medium">{{ $product->brand }}</p>
                                 @endif
                             </div>
-
+                            
                             <div class="flex items-center justify-between">
                                 <div class="space-y-1">
                                     @if($product->hasDiscount())
@@ -221,7 +231,7 @@
                                     <p class="text-sm font-medium text-gray-700">{{ $product->user->name }}</p>
                                 </div>
                             </div>
-
+                            
                             @if($product->description)
                                 <p class="text-sm text-gray-600 line-clamp-2">{{ $product->description }}</p>
                             @endif
@@ -272,13 +282,13 @@
                     <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center">
                         <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2M4 13h2m13-8V4a1 1 0 00-1-1H7a1 1 0 00-1 1v1m8 0V4a1 1 0 00-1-1H9a1 1 0 00-1 1v1m4 0h-2m0 0V4a1 1 0 00-1-1v1a1 1 0 001 1m0 0h2m-6 0h2"></path>
-                        </svg>
+                </svg>
                     </div>
                     <h3 class="text-2xl font-bold text-gray-900 mb-4">Aucun produit trouvé</h3>
                     <p class="text-gray-600 mb-8">Essayez de modifier vos critères de recherche ou explorez nos catégories.</p>
                     <a href="{{ route('products.index') }}" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl">
-                        Voir tous les produits
-                    </a>
+                            Voir tous les produits
+                        </a>
                 </div>
             </div>
         @endif

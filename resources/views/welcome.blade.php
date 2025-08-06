@@ -227,7 +227,8 @@
                         <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
 
                         <div class="relative aspect-w-1 aspect-h-1 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                            
+                            <div class="absolute w-full h-full inset-0 bg-[url('https://i.pinimg.com/736x/b7/31/db/b731db4581abebde1748a24ee2e616d3.jpg')] bg-no-repeat bg-cover "></div>
+
                             <img src="{{ $product->main_image_url }}"
                                  alt="{{ $product->name }}"
                                  class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-700"
