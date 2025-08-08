@@ -114,6 +114,8 @@
 
                             <!-- Overlay premium -->
                             <div class="absolute inset-0 bg-gradient-to-t from-yellow-900 via-transparent to-transparent opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
+                            <div class="absolute w-full h-full inset-0 bg-[url('https://i.pinimg.com/1200x/61/a0/69/61a06904a392c8578a68d89863c91a2f.jpg')] bg-no-repeat bg-cover "></div>
+
                         </div>
 
                         <!-- Contenu -->

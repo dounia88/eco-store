@@ -7,7 +7,7 @@
 <div class="bg-white">
     <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
         <div class="max-w-lg mx-auto md:max-w-none md:grid md:grid-cols-2 md:gap-8">
-            <div>
+            <div class="animate-fadeInUp duration-700 delay-100">
                 <h2 class="text-2xl font-extrabold text-gray-900 sm:text-3xl">
                     Contactez-nous
                 </h2>
@@ -24,7 +24,7 @@
                             </svg>
                         </div>
                         <div class="ml-3 text-base text-gray-500">
-                            <p>+33 1 23 45 67 89</p>
+                            <p>+212658677091</p>
                         </div>
                     </div>
                     <div class="mt-6 flex">
@@ -45,12 +45,12 @@
                             </svg>
                         </div>
                         <div class="ml-3 text-base text-gray-500">
-                            <p>123 Rue de Luxylia<br>75001 Paris, France</p>
+                            <p>123 Rue de Luxylia<br>75001 Casablanca, Maroc</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="mt-12 sm:mt-16 md:mt-0">
+            <div class="mt-12 sm:mt-16 md:mt-0 animate-fadeInUp duration-700 delay-300">
                 <h2 class="text-2xl font-extrabold text-gray-900 sm:text-3xl">
                     Envoyez-nous un message
                 </h2>

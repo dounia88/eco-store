@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Product extends Model
@@ -144,7 +145,7 @@ class Product extends Model
         // 1. Check in storage/app/public/products/
         foreach ($extensions as $ext) {
             $storagePath = "products/{$slug}.{$ext}";
-            if (\Storage::disk('public')->exists($storagePath)) {
+            if (Storage::disk('public')->exists($storagePath)) {
                 return asset('storage/' . $storagePath);
             }
         }
