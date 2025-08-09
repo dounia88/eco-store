@@ -48,6 +48,8 @@ if (app()->environment('local')) {
     })->name('test.products');
 
 
+
+
 }
 
 // Routes pour le panier (authentification requise)
@@ -119,6 +121,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/reports', function () {
         return view('admin.reports.index');
     })->name('reports.index');
+
+    // Route d'aide
+    Route::get('/help', function () {
+        return view('admin.help');
+    })->name('help');
 });
 
 // Routes d'authentification existantes
@@ -134,11 +141,11 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-// Routes Chatify (temporairement désactivées pour résoudre les problèmes d'authentification)
-// Route::middleware(['web', 'auth'])->prefix('chatify')->namespace('App\Http\Controllers\vendor\Chatify')->group(function () {
-//     require __DIR__.'/chatify/web.php';
-// });
+// Routes Chatify pour l'administration et les utilisateurs
+Route::middleware(['web', 'auth'])->prefix('chatify')->namespace('App\Http\Controllers\vendor\Chatify')->group(function () {
+    require __DIR__.'/chatify/web.php';
+});
 
-// Route::middleware(['api'])->prefix('chatify/api')->namespace('App\Http\Controllers\vendor\Chatify\Api')->group(function () {
-//     require __DIR__.'/chatify/api.php';
-// });
+Route::middleware(['api', 'auth'])->prefix('chatify/api')->namespace('App\Http\Controllers\vendor\Chatify\Api')->group(function () {
+    require __DIR__.'/chatify/api.php';
+});

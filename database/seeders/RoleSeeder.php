@@ -15,9 +15,9 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         // Créer les rôles
-        $adminRole = Role::create(['name' => 'admin']);
-        $sellerRole = Role::create(['name' => 'seller']);
-        $clientRole = Role::create(['name' => 'client']);
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $vendorRole = Role::firstOrCreate(['name' => 'vendor']);
+        $customerRole = Role::firstOrCreate(['name' => 'customer']);
 
         // Créer les permissions
         $permissions = [
@@ -27,23 +27,23 @@ class RoleSeeder extends Seeder
             'edit products',
             'delete products',
             'manage products',
-            
+
             // Permissions catégories
             'view categories',
             'create categories',
             'edit categories',
             'delete categories',
             'manage categories',
-            
+
             // Permissions commandes
             'view orders',
             'manage orders',
             'update order status',
-            
+
             // Permissions utilisateurs
             'view users',
             'manage users',
-            
+
             // Permissions admin
             'access admin panel',
             'view dashboard',
@@ -51,14 +51,14 @@ class RoleSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
         // Assigner toutes les permissions au rôle admin
         $adminRole->givePermissionTo(Permission::all());
 
-        // Assigner les permissions de vendeur au rôle seller
-        $sellerRole->givePermissionTo([
+        // Assigner les permissions de vendeur au rôle vendor
+        $vendorRole->givePermissionTo([
             'view products',
             'create products',
             'edit products',
@@ -69,8 +69,8 @@ class RoleSeeder extends Seeder
             'update order status',
         ]);
 
-        // Assigner les permissions de client au rôle client
-        $clientRole->givePermissionTo([
+        // Assigner les permissions de client au rôle customer
+        $customerRole->givePermissionTo([
             'view products',
             'view categories',
         ]);
