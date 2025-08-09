@@ -7,11 +7,13 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Category;
+use App\Traits\DatabaseCompatible;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    use DatabaseCompatible;
     public function __construct()
     {
         $this->middleware('admin');
@@ -28,7 +30,10 @@ class DashboardController extends Controller
         // Chiffre d'affaires
         $totalRevenue = Order::where('payment_status', 'paid')->sum('total');
         $monthlyRevenue = Order::where('payment_status', 'paid')
-            ->whereMonth('created_at', now()->month)
+            ->whereBetween('created_at', [
+                now()->startOfMonth(),
+                now()->endOfMonth()
+            ])
             ->sum('total');
 
         // Commandes récentes
@@ -56,16 +61,12 @@ class DashboardController extends Controller
             ->get();
 
         // Statistiques des ventes par mois (6 derniers mois)
-        $monthlySales = Order::where('payment_status', 'paid')
-            ->where('created_at', '>=', now()->subMonths(6))
-            ->select(
-                DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
-                DB::raw('SUM(total) as revenue'),
-                DB::raw('COUNT(*) as orders')
-            )
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
+        $monthlySales = $this->getMonthlySalesStats(
+            Order::where('payment_status', 'paid'),
+            'total',
+            'created_at',
+            6
+        );
 
         return view('admin.dashboard', compact(
             'totalUsers',
@@ -81,4 +82,6 @@ class DashboardController extends Controller
             'monthlySales'
         ));
     }
+
+
 }

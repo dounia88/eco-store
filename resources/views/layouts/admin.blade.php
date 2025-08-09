@@ -13,37 +13,62 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
+    <!-- Admin Custom CSS -->
+    <link href="{{ asset('css/admin-custom.css') }}" rel="stylesheet">
+
     <!-- Alpine.js -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="font-sans antialiased bg-gray-100" x-data="{ sidebarOpen: false }">
+<body class="font-sans antialiased bg-gray-100"
+      x-data="{ sidebarOpen: false }"
+      @close-sidebar.window="sidebarOpen = false"
+      @keydown.escape.window="sidebarOpen = false">
     <div class="min-h-screen flex">
+        <!-- Overlay pour mobile -->
+        <div x-show="sidebarOpen"
+             x-transition:enter="transition-opacity ease-linear duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition-opacity ease-linear duration-300"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             @click="sidebarOpen = false"
+             class="sidebar-overlay fixed inset-0 z-40 bg-gray-600 bg-opacity-50 lg:hidden"></div>
+
         <!-- Sidebar -->
-        <div class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0"
-             :class="{ '-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen }">
+        <div class="sidebar fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0"
+             :class="{ '-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen }"
+             @click.away="sidebarOpen = false"
             
             <!-- Logo -->
-            <div class="flex items-center justify-center h-16 px-4 bg-gray-800">
+            <div class="sidebar-header flex items-center justify-between h-16 px-4">
                 <h1 class="text-xl font-bold text-white">Admin Panel</h1>
+                <!-- Bouton fermer pour mobile -->
+                <button @click="sidebarOpen = false"
+                        class="close-button lg:hidden p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
             </div>
 
             <!-- Navigation -->
-            <nav class="mt-8">
+            <nav class="sidebar-nav mt-8 overflow-y-auto flex-1">
                 <div class="px-4 space-y-2">
                     <!-- Dashboard -->
-                    <a href="{{ route('admin.dashboard') }}" 
-                       class="flex items-center px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200 {{ request()->routeIs('admin.dashboard') ? 'bg-gray-700 text-white' : '' }}">
-                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="{{ route('admin.dashboard') }}"
+                       class="nav-item flex items-center px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200 {{ request()->routeIs('admin.dashboard') ? 'nav-item-active bg-gray-700 text-white' : '' }}">
+                        <svg class="nav-icon w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z"></path>
                         </svg>
                         Dashboard
                     </a>
 
                     <!-- Produits -->
-                    <a href="{{ route('admin.products.index') }}" 
-                       class="flex items-center px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200 {{ request()->routeIs('admin.products.*') ? 'bg-gray-700 text-white' : '' }}">
-                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="{{ route('admin.products.index') }}"
+                       class="nav-item flex items-center px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200 {{ request()->routeIs('admin.products.*') ? 'nav-item-active bg-gray-700 text-white' : '' }}">
+                        <svg class="nav-icon w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
                         </svg>
                         Produits
@@ -149,11 +174,14 @@
             <header class="bg-white shadow-sm border-b border-gray-200">
                 <div class="flex items-center justify-between px-6 py-4">
                     <!-- Mobile menu button -->
-                    <button @click="sidebarOpen = !sidebarOpen" 
-                            class="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                    <button @click="sidebarOpen = !sidebarOpen"
+                            class="hamburger-button lg:hidden relative p-3 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 transform hover:scale-105">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            <path class="hamburger-line" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
+                        <!-- Indicateur de menu -->
+                        <span class="menu-indicator absolute -top-1 -right-1 w-3 h-3 bg-indigo-500 rounded-full"></span>
+                        <span class="sr-only">Ouvrir le menu</span>
                     </button>
 
                     <!-- Page Title -->
@@ -211,7 +239,7 @@
     </div>
 
     <!-- Mobile sidebar overlay -->
-    <div x-show="sidebarOpen" 
+    <div x-show="sidebarOpen"
          x-transition:enter="transition-opacity ease-linear duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
@@ -220,5 +248,115 @@
          x-transition:leave-end="opacity-0"
          class="fixed inset-0 z-40 bg-gray-600 bg-opacity-75 lg:hidden"
          @click="sidebarOpen = false"></div>
+
+    <!-- Toast de notification pour le guide -->
+    <div id="sidebar-guide-toast" class="toast lg:hidden">
+        <button class="toast-close" onclick="closeToast()">&times;</button>
+        <div class="flex items-start">
+            <svg class="w-6 h-6 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div>
+                <h4 class="font-semibold text-sm mb-1">Menu Navigation</h4>
+                <p class="text-xs opacity-90">Cliquez sur le bouton ☰ en haut à gauche pour ouvrir/fermer le menu de navigation.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour fermer le toast
+        function closeToast() {
+            const toast = document.getElementById('sidebar-guide-toast');
+            if (toast) {
+                toast.classList.remove('show');
+                localStorage.setItem('sidebar-guide-shown', 'true');
+            }
+        }
+
+        // Amélioration de l'expérience utilisateur de la sidebar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Afficher le toast de guide si c'est la première visite
+            const guideShown = localStorage.getItem('sidebar-guide-shown');
+            const toast = document.getElementById('sidebar-guide-toast');
+
+            if (!guideShown && toast && window.innerWidth < 1024) {
+                setTimeout(() => {
+                    toast.classList.add('show');
+                    // Auto-fermer après 5 secondes
+                    setTimeout(() => {
+                        closeToast();
+                    }, 5000);
+                }, 1000);
+            }
+            // Fermer la sidebar avec la touche Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    // Déclencher l'événement de fermeture
+                    const event = new CustomEvent('close-sidebar');
+                    document.dispatchEvent(event);
+                }
+            });
+
+            // Fermer la sidebar automatiquement après clic sur un lien (mobile uniquement)
+            const navLinks = document.querySelectorAll('.nav-item');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 1024) {
+                        // Petit délai pour permettre la navigation
+                        setTimeout(() => {
+                            const event = new CustomEvent('close-sidebar');
+                            document.dispatchEvent(event);
+                        }, 100);
+                    }
+                });
+            });
+
+            // Gérer le redimensionnement de la fenêtre
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    if (window.innerWidth >= 1024) {
+                        const event = new CustomEvent('close-sidebar');
+                        document.dispatchEvent(event);
+                    }
+                }, 250);
+            });
+
+            // Animation du bouton hamburger
+            const hamburgerButton = document.querySelector('.hamburger-button');
+            if (hamburgerButton) {
+                hamburgerButton.addEventListener('click', function() {
+                    this.classList.add('animate-pulse');
+                    setTimeout(() => {
+                        this.classList.remove('animate-pulse');
+                    }, 200);
+                });
+            }
+
+            // Améliorer l'accessibilité
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar) {
+                sidebar.setAttribute('role', 'navigation');
+                sidebar.setAttribute('aria-label', 'Menu principal');
+            }
+
+            // Ajouter des tooltips aux éléments de navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                const text = item.textContent.trim();
+                item.setAttribute('title', text);
+            });
+        });
+
+        // Fonction pour Alpine.js - fermer la sidebar
+        document.addEventListener('close-sidebar', function() {
+            // Cette fonction sera appelée par Alpine.js si nécessaire
+            const sidebarData = document.querySelector('[x-data]');
+            if (sidebarData && sidebarData._x_dataStack && sidebarData._x_dataStack[0]) {
+                sidebarData._x_dataStack[0].sidebarOpen = false;
+            }
+        });
+    </script>
 </body>
 </html>
