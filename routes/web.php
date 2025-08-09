@@ -46,6 +46,8 @@ if (app()->environment('local')) {
         $products = \App\Models\Product::with(['category', 'user'])->take(8)->get();
         return view('test-products', compact('products'));
     })->name('test.products');
+
+
 }
 
 // Routes pour le panier (authentification requise)
@@ -131,3 +133,12 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Routes Chatify (temporairement désactivées pour résoudre les problèmes d'authentification)
+// Route::middleware(['web', 'auth'])->prefix('chatify')->namespace('App\Http\Controllers\vendor\Chatify')->group(function () {
+//     require __DIR__.'/chatify/web.php';
+// });
+
+// Route::middleware(['api'])->prefix('chatify/api')->namespace('App\Http\Controllers\vendor\Chatify\Api')->group(function () {
+//     require __DIR__.'/chatify/api.php';
+// });

@@ -20,17 +20,10 @@
                 @foreach($categories as $category)
                     <div class="group relative bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                         <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-t-lg bg-gray-200">
-                            @if($category->image)
-                                <img src="{{ asset($category->image) }}" 
-                                     alt="{{ $category->name }}" 
-                                     class="h-48 w-full object-cover object-center group-hover:opacity-75 transition-opacity duration-300">
-                            @else
-                                <div class="h-48 w-full bg-gradient-to-br from-indigo-100 to-indigo-200 flex items-center justify-center">
-                                    <svg class="w-16 h-16 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14-7H5m14 14H5"></path>
-                                    </svg>
-                                </div>
-                            @endif
+                            <img src="{{ $category->image_url }}"
+                                 alt="{{ $category->name }}"
+                                 class="h-48 w-full object-cover object-center group-hover:opacity-75 transition-opacity duration-300"
+                                 onerror="this.src='{{ $category->getPlaceholderImage() }}'">
                         </div>
                         
                         <div class="p-6">

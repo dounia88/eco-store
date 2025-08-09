@@ -80,27 +80,27 @@
     </div>
 
     <!-- Catégories populaires -->
-    <div class="bg-gradient-to-b from-gray-50 to-white py-20">
+    <div class="bg-gradient-to-b from-gray-50 to-white py-16 lg:py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
                     Explorez nos
                     <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                         Collections
                     </span>
                 </h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
                     Découvrez nos catégories soigneusement organisées pour une expérience d'achat exceptionnelle
                 </p>
                 <div class="mt-6 w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             @php
                 $categories = \App\Models\Category::active()->take(9)->get();
 
                 // Fallback si pas assez de catégories en base
-                if($categories->count() < 6) {
+                if($categories->count() < 9) {
                     $defaultCategories = collect([
                         (object)['id' => 1, 'name' => 'Électronique', 'slug' => 'electronique', 'description' => 'Smartphones, ordinateurs, accessoires tech', 'image' => null],
                         (object)['id' => 2, 'name' => 'Mode & Beauté', 'slug' => 'mode-beaute', 'description' => 'Vêtements, chaussures, cosmétiques', 'image' => null],
@@ -117,55 +117,48 @@
             @endphp
             @foreach($categories as $category)
                 <a href="{{ isset($category->id) && $category->id <= 1000 ? route('categories.index') : route('categories.show', $category) }}" class="group block">
-                    <div class="relative bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-gray-100 overflow-hidden">
+                    <div class="relative bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 border border-gray-100 overflow-hidden h-full group-hover:border-indigo-200">
                         <!-- Background gradient -->
-                        
                         <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                         <!-- Content -->
-                        <div class="relative z-10">
-                            @if($category->image)
-                                <div class="w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden ring-4 ring-white shadow-lg">
-                                    <img src="{{ asset($category->image) }}" alt="{{ $category->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                </div>
-                            @else
-                            @php
-                                $categoryIcons = [
-                                    'Électronique' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>',
-                                    'Mode & Beauté' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>',
-                                    'Maison & Jardin' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>',
-                                    'Sport & Loisirs' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>',
-                                    'Auto & Moto' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>',
-                                    'Livres & Culture' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>',
-                                    'Santé & Bien-être' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>',
-                                    'Enfants & Bébés' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>',
-                                    'Alimentation' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>'
-                                ];
-                                $iconPath = $categoryIcons[$category->name] ?? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>';
-                            @endphp
-                                <div class="relative w-24 h-24 mx-auto mb-6">
-                                    <div class="w-full h-full bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 rounded-full flex items-center justify-center group-hover:from-indigo-200 group-hover:via-purple-200 group-hover:to-pink-200 transition-all duration-500 shadow-lg">
-                                        <svg class="w-12 h-12 text-indigo-600 group-hover:text-purple-600 transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            {!! $iconPath !!}
+                        <div class="relative z-10 flex flex-col h-full">
+                            <!-- Image container -->
+                            <div class="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden ring-4 ring-white shadow-lg flex-shrink-0">
+                                @if(isset($category->image_url))
+                                    <img src="{{ $category->image_url }}" alt="{{ $category->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <div class="w-full h-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center" style="display: none;">
+                                        <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14-7H5m14 14H5"></path>
                                         </svg>
                                     </div>
-                                    <!-- Glow effect -->
-                                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-400 to-purple-400 rounded-full opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
-                                </div>
-                            @endif
+                                @else
+                                    <div class="w-full h-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
+                                        <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14-7H5m14 14H5"></path>
+                                        </svg>
+                                    </div>
+                                @endif
+                            </div>
 
-                            <h3 class="text-2xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors duration-500 mb-3">
+                            <!-- Title -->
+                            <h3 class="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors duration-500 mb-2">
                                 {{ $category->name }}
                             </h3>
+
+                            <!-- Description -->
                             @if($category->description)
-                                <p class="text-gray-600 mb-6 line-clamp-2 leading-relaxed">{{ Str::limit($category->description, 100) }}</p>
+                                <p class="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed flex-grow">{{ Str::limit($category->description, 80) }}</p>
                             @endif
 
-                            <div class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full text-sm font-medium group-hover:from-indigo-600 group-hover:to-purple-600 transition-all duration-500 transform group-hover:scale-105">
-                                <span>Explorer</span>
-                                <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
+                            <!-- Button -->
+                            <div class="mt-auto">
+                                <div class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full text-sm font-medium group-hover:from-indigo-600 group-hover:to-purple-600 transition-all duration-500 transform group-hover:scale-105">
+                                    <span>Explorer</span>
+                                    <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
                             </div>
                         </div>
                     </div>
